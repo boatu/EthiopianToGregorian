@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ethiopian to Gregorian Calendar Converter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 50px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Ethiopian to Gregorian Calendar Converter</h1>
+  <label for="ethiopianDate">Enter Ethiopian Date:</label>
+  <input type="text" id="ethiopianDate" placeholder="YYYY-MM-DD" />
+  <button onclick="convertDate()">Convert</button>
+  <p id="result"></p>
+
+  <script>
+    function convertDate() {
+      const ethiopianDateInput = document.getElementById('ethiopianDate');
+      const resultParagraph = document.getElementById('result');
+
+      const ethiopianDate = ethiopianDateInput.value;
+      const gregorianDate = ethiopianToGregorian(ethiopianDate);
+
+      resultParagraph.textContent = `Gregorian Date: ${gregorianDate}`;
+    }
+
+    function ethiopianToGregorian(ethiopianDate) {
+      const [ethiopianYear, ethiopianMonth, ethiopianDay] = ethiopianDate.split('-').map(Number);
+
+      // Ethiopian calendar has 13 months
+      const gregorianMonth = Math.floor((ethiopianMonth * 30) / 11);
+      const gregorianYear = ethiopianYear + 8;
+
+      // Adjust the day based on the difference between the Ethiopian and Gregorian calendars
+      const gregorianDay = ethiopianDay + 10;
+
+      return `${gregorianYear}-${gregorianMonth}-${gregorianDay}`;
+    }
+  </script>
+</body>
+</html>
