@@ -27,7 +27,7 @@
     <select id="ethiopianMonth"></select>
 
     <label for="ethiopianYear">Year: </label>
-    <select id="ethiopianYear"></select>
+    <input type="number" id="ethiopianYear" min="1920">
 
     <!-- Button to trigger the conversion -->
     <button onclick="convertDate()">Convert</button>
@@ -39,7 +39,7 @@
         // Populate day, month, and year dropdowns
         const ethiopianDayDropdown = document.getElementById('ethiopianDay');
         const ethiopianMonthDropdown = document.getElementById('ethiopianMonth');
-        const ethiopianYearDropdown = document.getElementById('ethiopianYear');
+        const ethiopianYearInput = document.getElementById('ethiopianYear');
 
         for (let i = 1; i <= 30; i++) {
             const option = document.createElement('option');
@@ -55,19 +55,11 @@
             ethiopianMonthDropdown.add(option);
         }
 
-        const currentYear = new Date().getFullYear();
-        for (let i = currentYear - 50; i <= currentYear + 50; i++) {
-            const option = document.createElement('option');
-            option.value = i;
-            option.text = i;
-            ethiopianYearDropdown.add(option);
-        }
-
         // Function to convert Ethiopian date to Gregorian date
         function convertDate() {
             const ethiopianDay = parseInt(ethiopianDayDropdown.value);
             const ethiopianMonth = parseInt(ethiopianMonthDropdown.value);
-            const ethiopianYear = parseInt(ethiopianYearDropdown.value);
+            const ethiopianYear = parseInt(ethiopianYearInput.value);
 
             // Create a new date on January 1, 8 years ahead of the Ethiopian year
             const gregorianYear = ethiopianYear + 8;
