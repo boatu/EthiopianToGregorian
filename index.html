@@ -35,38 +35,37 @@
 
       let gregorianMonth, gregorianDay;
 
-      if (ethiopianMonth === 13) {
-        // Check for leap year every 4 years
-        const isLeapYear = (ethiopianYear - 1) % 4 === 0;
+      // Define the offsets for each Ethiopian month
+      const offsets = [0, 31, 61, 92, 122, 153, 183, 214, 245, 275, 306, 336];
 
-        // The 13th month has 5 or 6 days
-        gregorianMonth = 12;
-        gregorianDay = ethiopianDay + (isLeapYear ? 6 : 5);
+      // Check for leap year every 4 years
+      const isLeapYear = (ethiopianYear - 1) % 4 === 0;
 
-        // Adjust month and day if they exceed the valid range
-        if (gregorianMonth > 12) {
-          gregorianMonth -= 12;
-          gregorianYear += 1;
-        }
-        if (gregorianDay > 30) {
-          gregorianDay -= 30;
-          gregorianMonth += 1;
-        }
-      } else {
-        // Ethiopian calendar has 13 months
-        gregorianMonth = Math.floor((ethiopianMonth * 30) / 11);
-        gregorianDay = ethiopianDay;
+      // Calculate the day offset based on the provided table
+      const dayOffset = isLeapYear ? 12 : 11;
 
-        // Adjust month and day if they exceed the valid range
-        if (gregorianDay > 30) {
-          gregorianDay -= 30;
-          gregorianMonth += 1;
-        }
+      // Calculate the total day offset for the Ethiopian date
+      const totalOffset = offsets[ethiopianMonth - 1] + ethiopianDay + dayOffset;
+
+      // Calculate the Gregorian month and day
+      gregorianMonth = Math.floor(totalOffset / 30);
+      gregorianDay = totalOffset % 30;
+
+      // Adjust month and day if they exceed the valid range
+      if (gregorianMonth > 12) {
+        gregorianMonth -= 12;
+        gregorianYear += 1;
       }
 
-      const gregorianYear = ethiopianYear + 8;
+      if (gregorianDay === 0) {
+        // If the day is 0, adjust to the last day of the previous month
+        gregorianDay = 30;
+        gregorianMonth -= 1;
+      }
 
-      return `${gregorianYear}-${gregorianMonth}-${gregorianDay}`;
+      const gregorianYearAdjusted = ethiopianYear + 8;
+
+      return `${gregorianYearAdjusted}-${gregorianMonth}-${gregorianDay}`;
     }
   </script>
 </body>
