@@ -33,12 +33,22 @@
     function ethiopianToGregorian(ethiopianDate) {
       const [ethiopianYear, ethiopianMonth, ethiopianDay] = ethiopianDate.split('-').map(Number);
 
-      // Ethiopian calendar has 13 months
-      const gregorianMonth = Math.floor((ethiopianMonth * 30) / 11);
-      const gregorianYear = ethiopianYear + 8;
+      let gregorianMonth, gregorianDay;
 
-      // Adjust the day based on the difference between the Ethiopian and Gregorian calendars
-      const gregorianDay = ethiopianDay + 10;
+      if (ethiopianMonth === 13) {
+        // Check for leap year every 4 years
+        const isLeapYear = (ethiopianYear - 1) % 4 === 0;
+
+        // The 13th month has 5 or 6 days
+        gregorianMonth = 12;
+        gregorianDay = ethiopianDay + (isLeapYear ? 6 : 5);
+      } else {
+        // Ethiopian calendar has 13 months
+        gregorianMonth = Math.floor((ethiopianMonth * 30) / 11);
+        gregorianDay = ethiopianDay;
+      }
+
+      const gregorianYear = ethiopianYear + 8;
 
       return `${gregorianYear}-${gregorianMonth}-${gregorianDay}`;
     }
