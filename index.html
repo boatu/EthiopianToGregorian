@@ -88,7 +88,7 @@
             resultDate.setDate(resultDate.getDate() + offsetDays);
 
             // Display the result below the button
-            document.getElementById('result').innerText = `Gregorian Date: ${resultDate.toDateString()}`;
+            document.getElementById('result').innerText = `Gregorian Date: ${resultDate.toLocaleDateString()} | Days offset: ${offsetDays}`;
         }
 
         // Function to check if a year is an Ethiopian leap year
