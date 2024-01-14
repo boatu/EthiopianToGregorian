@@ -42,10 +42,26 @@
         // The 13th month has 5 or 6 days
         gregorianMonth = 12;
         gregorianDay = ethiopianDay + (isLeapYear ? 6 : 5);
+
+        // Adjust month and day if they exceed the valid range
+        if (gregorianMonth > 12) {
+          gregorianMonth -= 12;
+          gregorianYear += 1;
+        }
+        if (gregorianDay > 30) {
+          gregorianDay -= 30;
+          gregorianMonth += 1;
+        }
       } else {
         // Ethiopian calendar has 13 months
         gregorianMonth = Math.floor((ethiopianMonth * 30) / 11);
         gregorianDay = ethiopianDay;
+
+        // Adjust month and day if they exceed the valid range
+        if (gregorianDay > 30) {
+          gregorianDay -= 30;
+          gregorianMonth += 1;
+        }
       }
 
       const gregorianYear = ethiopianYear + 8;
