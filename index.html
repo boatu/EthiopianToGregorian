@@ -3,98 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ethiopian to Gregorian Calendar Converter</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 50px;
-        }
-
-        label {
-            margin-right: 10px;
-        }
-    </style>
+    <title>Date Calculation</title>
 </head>
 <body>
-    <h1>Ethiopian to Gregorian Calendar Converter</h1>
+    <label for="dateInput">Enter Date (mm/dd/yyyy): </label>
+    <input type="text" id="dateInput" placeholder="mm/dd/yyyy">
+    <button onclick="calculateDate()">Calculate</button>
 
-    <!-- Input fields for Ethiopian Date -->
-    <label for="ethiopianDay">Day: </label>
-    <select id="ethiopianDay"></select>
-
-    <label for="ethiopianMonth">Month: </label>
-    <select id="ethiopianMonth"></select>
-
-    <label for="ethiopianYear">Year: </label>
-    <input type="number" id="ethiopianYear" min="1920">
-
-    <!-- Button to trigger the conversion -->
-    <button onclick="convertDate()">Convert</button>
-
-    <!-- Display the result -->
     <p id="result"></p>
 
-    <script>
-        // Populate day, month, and year dropdowns
-        const ethiopianDayDropdown = document.getElementById('ethiopianDay');
-        const ethiopianMonthDropdown = document.getElementById('ethiopianMonth');
-        const ethiopianYearInput = document.getElementById('ethiopianYear');
-
-        for (let i = 1; i <= 30; i++) {
-            const option = document.createElement('option');
-            option.value = i;
-            option.text = i;
-            ethiopianDayDropdown.add(option);
-        }
-
-        for (let i = 1; i <= 13; i++) {
-            const option = document.createElement('option');
-            option.value = i;
-            option.text = i;
-            ethiopianMonthDropdown.add(option);
-        }
-
-        // Function to convert Ethiopian date to Gregorian date
-        function convertDate() {
-            const ethiopianDay = parseInt(ethiopianDayDropdown.value);
-            const ethiopianMonth = parseInt(ethiopianMonthDropdown.value);
-            const ethiopianYear = parseInt(ethiopianYearInput.value);
-
-            // Create a new date on January 1, 8 years ahead of the Ethiopian year
-            const gregorianYear = ethiopianYear + 8;
-            const gregorianMonth = 0; // January
-            const gregorianDay = 1;
-
-            // Determine the offset to add or subtract
-            let offsetDays = ethiopianMonth * 30 - 120 + ethiopianDay;
-            
-            // Adjust for Ethiopian leap year
-            if (isEthiopianLeapYear(ethiopianYear - 1) && ethiopianMonth === 13) {
-                // Leap year with the 13th month selected
-                offsetDays -= 23; // Subtract 23 days for leap year
-                ethiopianDayDropdown.options.length = 6; // Restrict day dropdown to 6 options (1 to 6)
-            } else if (!isEthiopianLeapYear(ethiopianYear - 1) && ethiopianMonth === 13) {
-                // Non-leap year with the 13th month selected
-                offsetDays += 5; // Add 5 days for non-leap year
-                ethiopianDayDropdown.options.length = 5; // Restrict day dropdown to 5 options (1 to 5)
-            } else {
-                // Regular scenario
-                ethiopianDayDropdown.options.length = 30; // Reset day dropdown to 30 options (1 to 30)
-            }
-
-            // Create a Date object for the resulting Gregorian date
-            const resultDate = new Date(gregorianYear, gregorianMonth, gregorianDay);
-            resultDate.setDate(resultDate.getDate() + offsetDays);
-
-            // Display the result below the button
-            document.getElementById('result').innerText = `Gregorian Date: ${resultDate.toLocaleDateString()} | Days offset: ${offsetDays}`;
-        }
-
-        // Function to check if a year is an Ethiopian leap year
-        function isEthiopianLeapYear(year) {
-            return (year % 4 === 3); // Leap year occurs every 4 years, with a remainder of 3
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
