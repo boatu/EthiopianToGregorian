@@ -70,10 +70,17 @@
             let offsetDays = ethiopianMonth * 30 - 120 + ethiopianDay;
             
             // Adjust for Ethiopian leap year
-            if (isEthiopianLeapYear(ethiopianYear - 1)) {
+            if (isEthiopianLeapYear(ethiopianYear - 1) && ethiopianMonth === 13) {
+                // Leap year with the 13th month selected
                 offsetDays -= 23; // Subtract 23 days for leap year
-            } else {
+                ethiopianDayDropdown.options.length = 6; // Restrict day dropdown to 6 options (1 to 6)
+            } else if (!isEthiopianLeapYear(ethiopianYear - 1) && ethiopianMonth === 13) {
+                // Non-leap year with the 13th month selected
                 offsetDays -= 22; // Subtract 22 days for non-leap year
+                ethiopianDayDropdown.options.length = 5; // Restrict day dropdown to 5 options (1 to 5)
+            } else {
+                // Regular scenario
+                ethiopianDayDropdown.options.length = 30; // Reset day dropdown to 30 options (1 to 30)
             }
 
             // Create a Date object for the resulting Gregorian date
