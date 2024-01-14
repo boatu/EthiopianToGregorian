@@ -1,72 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ethiopian to Gregorian Calendar Converter</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      margin: 50px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethiopian to Gregorian Calendar Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+    </style>
 </head>
 <body>
-  <h1>Ethiopian to Gregorian Calendar Converter</h1>
-  <label for="ethiopianDate">Enter Ethiopian Date:</label>
-  <input type="text" id="ethiopianDate" placeholder="YYYY-MM-DD" />
-  <button onclick="convertDate()">Convert</button>
-  <p id="result"></p>
+    <h1>Ethiopian to Gregorian Calendar Converter</h1>
 
-  <script>
-    function convertDate() {
-      const ethiopianDateInput = document.getElementById('ethiopianDate');
-      const resultParagraph = document.getElementById('result');
+    <label for="ethiopianDate">Enter Ethiopian Date: </label>
+    <input type="date" id="ethiopianDate">
 
-      const ethiopianDate = ethiopianDateInput.value;
-      const gregorianDate = ethiopianToGregorian(ethiopianDate);
+    <button onclick="convertDate()">Convert</button>
 
-      resultParagraph.textContent = `Gregorian Date: ${gregorianDate}`;
-    }
+    <p id="result"></p>
 
-    function ethiopianToGregorian(ethiopianDate) {
-      const [ethiopianYear, ethiopianMonth, ethiopianDay] = ethiopianDate.split('-').map(Number);
+    <script>
+        function convertDate() {
+            const ethiopianDateInput = document.getElementById('ethiopianDate');
+            const ethiopianDate = new Date(ethiopianDateInput.value);
 
-      let gregorianMonth, gregorianDay;
+            const ethiopianYear = ethiopianDate.getFullYear();
+            const ethiopianMonth = ethiopianDate.getMonth() + 1;
+            const ethiopianDay = ethiopianDate.getDate();
 
-      // Define the offsets for each Ethiopian month
-      const offsets = [0, 31, 61, 92, 122, 153, 183, 214, 245, 275, 306, 336];
+            // Calculate Gregorian date
+            const gregorianYear = ethiopianYear + 8;
+            const gregorianMonth = ethiopianMonth * 30 - 120;
+            const gregorianDay = ethiopianDay + ethiopianMonth - 23;
 
-      // Check for leap year every 4 years
-      const isLeapYear = (ethiopianYear - 1) % 4 === 0;
+            const resultDate = new Date(gregorianYear, gregorianMonth - 1, gregorianDay);
 
-      // Calculate the day offset based on the provided table
-      const dayOffset = isLeapYear ? 12 : 11;
-
-      // Calculate the total day offset for the Ethiopian date
-      const totalOffset = offsets[ethiopianMonth - 1] + ethiopianDay + dayOffset;
-
-      // Calculate the Gregorian month and day
-      gregorianMonth = Math.floor(totalOffset / 30);
-      gregorianDay = totalOffset % 30;
-
-      // Adjust month and day if they exceed the valid range
-      if (gregorianMonth > 12) {
-        gregorianMonth -= 12;
-        gregorianYear += 1;
-      }
-
-      if (gregorianDay === 0) {
-        // If the day is 0, adjust to the last day of the previous month
-        gregorianDay = 30;
-        gregorianMonth -= 1;
-      }
-
-      const gregorianYearAdjusted = ethiopianYear + 8;
-
-      return `${gregorianYearAdjusted}-${gregorianMonth}-${gregorianDay}`;
-    }
-  </script>
+            document.getElementById('result').innerText = `Gregorian Date: ${resultDate.toDateString()}`;
+        }
+    </script>
 </body>
 </html>
