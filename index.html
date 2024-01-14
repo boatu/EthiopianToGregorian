@@ -76,7 +76,7 @@
                 ethiopianDayDropdown.options.length = 6; // Restrict day dropdown to 6 options (1 to 6)
             } else if (!isEthiopianLeapYear(ethiopianYear - 1) && ethiopianMonth === 13) {
                 // Non-leap year with the 13th month selected
-                offsetDays -= 22; // Subtract 22 days for non-leap year
+                offsetDays += 5; // Add 5 days for non-leap year
                 ethiopianDayDropdown.options.length = 5; // Restrict day dropdown to 5 options (1 to 5)
             } else {
                 // Regular scenario
